@@ -95,6 +95,7 @@ class FoodSettings extends Component {
     modalVisible: false,
     modalTitle: '',
     modalFoodName: '',
+    originalModalFoodName: '',
     modalFoodCategories: [],
     editingFoodName: false,
     modalFoodId: ''
@@ -154,6 +155,7 @@ class FoodSettings extends Component {
     this.setState({
       modalVisible: true,
       modalFoodName: record.name,
+      originalModalFoodName: record.name,
       modalFoodId: record.id,
       modalFoodCategories: record.categories.map(el => {
         return el.name;
@@ -186,6 +188,7 @@ class FoodSettings extends Component {
       modalVisible: false,
       modalTitle: '',
       modalFoodName: '',
+      originalModalFoodName: '',
       modalFoodCategories: [],
       modalFoodId: '',
       editingFoodName: false
@@ -193,7 +196,10 @@ class FoodSettings extends Component {
   };
 
   saveFoodName = () => {
-    this.setState({ editingFoodName: false });
+    this.setState({
+      editingFoodName: false,
+      originalModalFoodName: this.state.modalFoodName
+    });
   };
 
   startEditingFoodName = () => {
@@ -203,7 +209,10 @@ class FoodSettings extends Component {
   };
 
   cancelEditingFoodName = () => {
-    this.setState({ editingFoodName: false });
+    this.setState({
+      editingFoodName: false,
+      modalFoodName: this.state.originalModalFoodName
+    });
   };
 
   onSubmit = e => {
@@ -251,14 +260,14 @@ class FoodSettings extends Component {
           value={this.state.modalFoodName}
         />
         <Button
-          style={{ marginLeft: '5px', color: 'blue' }}
+          style={{ marginLeft: '5px' }}
           icon="check-circle"
           type="primary"
           // size="small"
           onClick={this.saveFoodName}
         />
         <Button
-          style={{ marginLeft: '5px', color: 'red' }}
+          style={{ marginLeft: '5px' }}
           icon="close-circle"
           type="danger"
           // size="small"
@@ -269,7 +278,9 @@ class FoodSettings extends Component {
 
     const editModal = (
       <Modal
-        title={this.state.modalFoodName}
+        title={
+          this.state.editingFoodName ? foodNameEditing : foodNameNotEditing
+        }
         // bodyStyle={{ minHeight: '400px' }}
         visible={this.state.modalVisible}
         onOk={this.handleModalOk}
@@ -278,9 +289,6 @@ class FoodSettings extends Component {
         destroyOnClose
       >
         <Form>
-          <Form.Item label="Food Name">
-            {this.state.editingFoodName ? foodNameEditing : foodNameNotEditing}
-          </Form.Item>
           <Form.Item style={{ paddingBottom: '100px' }} label="Categories">
             <Select
               mode="tags"

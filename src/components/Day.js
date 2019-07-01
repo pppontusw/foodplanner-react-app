@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Entry from './Entry';
 import { Card } from 'antd';
-import NewEntry from './Entry';
+import Entry from './Entry';
 
 class Day extends Component {
   render() {
@@ -20,7 +19,7 @@ class Day extends Component {
           extra={moment.utc(day.day).format('MMM Do')}
         >
           {day.entries.map((entry, entry_index) => (
-            <NewEntry key={entry} listId={this.props.listId} entryId={entry} />
+            <Entry key={entry} listId={this.props.listId} entryId={entry} />
           ))}
         </Card>
       </React.Fragment>

@@ -3,8 +3,6 @@ import {
   GET_SHARES_SUCCESS,
   CLEAR_SHARES,
   NEW_SHARE_SUCCESS,
-  NEW_SHARE,
-  DELETE_SHARE,
   DELETE_SHARE_SUCCESS
 } from '../actions/types';
 import _ from 'lodash';

@@ -3,11 +3,8 @@ import {
   GET_MEALS_SUCCESS,
   CLEAR_MEALS,
   NEW_MEAL_SUCCESS,
-  NEW_MEAL,
-  DELETE_MEAL,
   DELETE_MEAL_SUCCESS,
-  PUT_MEALS_SUCCESS,
-  PUT_MEALS
+  PUT_MEALS_SUCCESS
 } from '../actions/types';
 import _ from 'lodash';
 

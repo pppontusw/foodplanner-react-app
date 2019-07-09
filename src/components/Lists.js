@@ -58,6 +58,7 @@ class Lists extends Component {
     return (
       <Fragment>
         <Modal
+          data-test="newListModal"
           visible={this.state.newListModalVisible}
           onOk={this.onSubmit}
           onCancel={this.hideModal}
@@ -65,8 +66,9 @@ class Lists extends Component {
           <h2 className="modal-title" id="exampleModalLabel">
             New List
           </h2>
-          <Form onSubmit={this.onSubmit}>
+          <Form data-test="modalForm" onSubmit={this.onSubmit}>
             <Input
+              data-test="modalInput"
               type="text"
               className="form-control"
               id="listname"
@@ -81,13 +83,19 @@ class Lists extends Component {
           {this.props.lists.map(list => (
             <Col key={list.id} xs={24} sm={24} md={12}>
               <Card
+                data-test="listsCard"
                 loading={this.props.firstFullLoad}
                 title={list.name}
                 style={{ margin: '10px 10px' }}
                 extra={<Link to={`/list/${list.id}`}>Go to list</Link>}
               >
                 {list.days.map((day, day_index) => (
-                  <Day key={day} listId={list.id} dayId={day} />
+                  <Day
+                    data-test="dayComponent"
+                    key={day}
+                    listId={list.id}
+                    dayId={day}
+                  />
                 ))}
               </Card>
             </Col>
@@ -95,6 +103,7 @@ class Lists extends Component {
         </Row>
         <Row>
           <Button
+            data-test="newListButton"
             style={{ margin: '10px' }}
             type="primary"
             onClick={this.createListClick.bind(this)}

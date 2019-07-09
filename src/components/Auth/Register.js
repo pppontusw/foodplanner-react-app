@@ -61,6 +61,7 @@ class Register extends Component {
     } = this.state;
     return (
       <Form
+        data-test="registerForm"
         onSubmit={this.onSubmit}
         layout="horizontal"
         style={{ maxWidth: '800px', margin: '20px auto' }}
@@ -68,7 +69,7 @@ class Register extends Component {
         <h2 className="text-center">Register</h2>
         <Form.Item className="form-group">
           <Input
-            // prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            data-test="username"
             type="text"
             className="form-control"
             name="username"
@@ -79,7 +80,7 @@ class Register extends Component {
         </Form.Item>
         <Form.Item className="form-group">
           <Input
-            // prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            data-test="email"
             type="email"
             className="form-control"
             name="email"
@@ -90,6 +91,7 @@ class Register extends Component {
         </Form.Item>
         <Form.Item className="form-group">
           <Input
+            data-test="firstname"
             type="text"
             className="form-control"
             name="firstname"
@@ -100,6 +102,7 @@ class Register extends Component {
         </Form.Item>
         <Form.Item>
           <Input
+            data-test="lastname"
             type="text"
             className="form-control"
             name="lastname"
@@ -110,7 +113,7 @@ class Register extends Component {
         </Form.Item>
         <Form.Item>
           <Input
-            // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            data-test="password"
             type="password"
             className="form-control"
             name="password"
@@ -121,6 +124,7 @@ class Register extends Component {
         </Form.Item>
         <Form.Item>
           <Input
+            data-test="password2"
             // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             type="password"
             className="form-control"
@@ -131,7 +135,12 @@ class Register extends Component {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+          <Button
+            data-test="registerSubmitButton"
+            type="primary"
+            htmlType="submit"
+            style={{ width: '100%' }}
+          >
             Register
           </Button>
           <p>

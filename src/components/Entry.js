@@ -107,7 +107,8 @@ export class Entry extends Component {
         >
           <Input
             onPressEnter={this.saveEntry}
-            ref={input => (this.testInput = input)}
+            // TODO remove this ? not sure why it is here
+            // ref={input => (this.testInput = input)}
           />
         </AutoComplete>
         <Button

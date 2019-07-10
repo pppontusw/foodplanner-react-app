@@ -22,6 +22,23 @@ const stateEntries = {
       key: 'Lunch',
       id: '1',
       value: 'Spaghetti'
+    },
+    2: {
+      key: 'Dinner',
+      id: '2',
+      value: ''
+    }
+  },
+  loading: false,
+  firstFullLoad: false
+};
+
+const stateLists = {
+  byId: {
+    1: {
+      name: 'List1',
+      id: '1',
+      foods: [1, 2]
     }
   },
   loading: false,
@@ -43,13 +60,15 @@ const stateFoods = {
 };
 
 const props = {
-  entryId: 1
+  entryId: 1,
+  listId: 1
 };
 
 describe('Entry Component (connected)', () => {
   let component;
   beforeEach(() => {
     component = setUp(props, {
+      lists: stateLists,
       entries: stateEntries,
       foods: stateFoods
     });
@@ -82,12 +101,44 @@ describe('Entry Component (connected)', () => {
     expect(entryValue.text().includes('Spaghetti')).toBe(true);
   });
 
-  it('renders nothing if there is no entries', () => {
+  it('renders nothing if there is no entries', async () => {
     component = setUp(props, {
       entries: {
         byId: {}
       }
     });
+    await component.instance().componentDidMount();
+    const entryValue = findByDataTestAttr(component, 'entryValue');
+    expect(entryValue.length).toBe(0);
+  });
+
+  it('handles if foods are missing', () => {
+    component = setUp(props, {
+      lists: stateLists,
+      entries: stateEntries,
+      foods: {
+        byId: {}
+      }
+    });
+    const entryValue = findByDataTestAttr(component, 'entryValue');
+    expect(entryValue.length).toBe(1);
+  });
+
+  it('handles if entry has no value (sets it to empty)', async () => {
+    component = setUp(
+      { ...props, entryId: 2 },
+      {
+        lists: stateLists,
+        entries: stateEntries,
+        foods: {
+          byId: {}
+        }
+      }
+    );
+    await component.instance().componentDidMount();
+    const entryValue = findByDataTestAttr(component, 'entryValue');
+    expect(entryValue.length).toBe(1);
+    expect(entryValue.text().includes('Empty')).toBe(true);
   });
 });
 

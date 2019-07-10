@@ -2,6 +2,17 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**",
+      "!src/index.js",
+      "!src/serviceWorker.js",
+      "!Utils/*",
+      "!coverage/lcov-report/*"
+    ]
+  },
   "dependencies": {
     "antd": "^3.19.3",
     "axios": "^0.18.0",

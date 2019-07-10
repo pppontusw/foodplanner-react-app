@@ -17,12 +17,6 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import { loadUser } from './actions/auth';
 
-// Alert Options
-// const alertOptions = {
-// timeout: 3000,
-// position: 'top center'
-// };
-
 class App extends Component {
   componentWillMount() {
     store.dispatch(loadUser());
@@ -31,19 +25,42 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        {/* <AlertProvider template={AlertTemplate} {...alertOptions}> */}
         <Router>
           <Fragment>
-            <Nav />
-            <div>
-              <Alerts />
+            <Nav data-test="navComponent" />
+            <div data-test="appDiv">
+              <Alerts data-test="alertsComponent" />
               <Switch>
-                <PrivateRoute exact path="/" component={Lists} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <PrivateRoute path="/list/:id" component={List} />
-                <PrivateRoute path="/profile" component={Profile} />
                 <PrivateRoute
+                  data-test="routeIndex"
+                  exact
+                  path="/"
+                  component={Lists}
+                />
+                <Route
+                  data-test="routeLogin"
+                  exact
+                  path="/login"
+                  component={Login}
+                />
+                <Route
+                  data-test="routeRegister"
+                  exact
+                  path="/register"
+                  component={Register}
+                />
+                <PrivateRoute
+                  data-test="routeList"
+                  path="/list/:id"
+                  component={List}
+                />
+                <PrivateRoute
+                  data-test="routeProfile"
+                  path="/profile"
+                  component={Profile}
+                />
+                <PrivateRoute
+                  data-test="routeListSettings"
                   path="/list_settings/:id"
                   component={ListSettings}
                 />
@@ -51,7 +68,6 @@ class App extends Component {
             </div>
           </Fragment>
         </Router>
-        {/* </AlertProvider> */}
       </Provider>
     );
   }

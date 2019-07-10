@@ -10,7 +10,7 @@ import MealSettings from './MealSettings';
 import FoodSettings from './FoodSettings';
 import CategorySettings from './CategorySettings';
 
-class ListSettings extends Component {
+export class ListSettings extends Component {
   state = {
     listTitle: 'Test',
     editingListTitle: false
@@ -26,7 +26,7 @@ class ListSettings extends Component {
     this.setState({ editingListTitle: true, listTitle: this.props.list.name });
   };
 
-  saveEntry = () => {
+  saveTitle = () => {
     this.setState({ editingListTitle: false });
     const newValue = this.state.listTitle;
     this.props.renameList(this.props.match.params.id, newValue);
@@ -50,6 +50,7 @@ class ListSettings extends Component {
       <Fragment>
         {this.props.list ? this.props.list.name : null}
         <Button
+          data-test="cardTitleEditButton"
           size="small"
           onClick={this.startEdit}
           icon="edit"
@@ -61,23 +62,24 @@ class ListSettings extends Component {
     const cardTitleEditing = (
       <Fragment>
         <Input
+          data-test="listTitleInput"
           style={{ width: 200 }}
           onChange={this.onChange}
-          onPressEnter={this.saveEntry}
+          onPressEnter={this.saveTitle}
           name="listTitle"
           value={this.state.listTitle}
         />
         <Button
+          data-test="saveTitle"
           style={{ marginLeft: '5px' }}
           icon="check-circle"
-          // size="small"
           type="primary"
-          onClick={this.saveEntry}
+          onClick={this.saveTitle}
         />
         <Button
+          data-test="cancelEditing"
           style={{ marginLeft: '5px' }}
           icon="close-circle"
-          // size="small"
           type="danger"
           onClick={this.cancelEditing}
         />
@@ -87,11 +89,15 @@ class ListSettings extends Component {
     return (
       <div>
         <Link to={`/list/${listId}`}>
-          <Button style={{ margin: '10px 10px 0px 10px' }}>
+          <Button
+            data-test="backToListButton"
+            style={{ margin: '10px 10px 0px 10px' }}
+          >
             <Icon type="left-circle" /> Back to list
           </Button>
         </Link>
         <Card
+          data-test="listSettingsCard"
           style={{
             margin: '10px 10px',
             maxWidth: '800px',
@@ -103,19 +109,22 @@ class ListSettings extends Component {
         >
           <Tabs tabPosition="right">
             <TabPane tab="View Settings" key="1">
-              <ViewSettings listId={listId} />
+              <ViewSettings data-test="viewSettingsTab" listId={listId} />
             </TabPane>
             <TabPane tab="Meals" key="2">
-              <MealSettings listId={listId} />
+              <MealSettings data-test="mealSettingsTab" listId={listId} />
             </TabPane>
             <TabPane tab="Foods" key="3">
-              <FoodSettings listId={listId} />
+              <FoodSettings data-test="foodSettingsTab" listId={listId} />
             </TabPane>
             <TabPane tab="Categories" key="4">
-              <CategorySettings listId={listId} />
+              <CategorySettings
+                data-test="categorySettingsTab"
+                listId={listId}
+              />
             </TabPane>
             <TabPane tab="Shares" key="5">
-              <ShareSettings listId={listId} />
+              <ShareSettings data-test="shareSettingsTab" listId={listId} />
             </TabPane>
           </Tabs>
         </Card>

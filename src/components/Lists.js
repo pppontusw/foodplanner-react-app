@@ -22,7 +22,7 @@ const mapStateToProps = state => {
   };
 };
 
-class Lists extends Component {
+export class Lists extends Component {
   state = {
     newListModalVisible: false,
     listname: ''

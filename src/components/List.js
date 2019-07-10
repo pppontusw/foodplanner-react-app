@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import Day from './Day';
 import { Card, Button, Icon } from 'antd';
 
-class List extends Component {
+export class List extends Component {
   state = {
     page: 0,
     visitedPages: [0]
@@ -75,13 +75,15 @@ class List extends Component {
     return (
       <div>
         <Card
+          data-test="listCard"
           loading={loading}
           title={list ? list.name : null}
           style={{ margin: '10px 10px', maxWidth: '600px' }}
           extra={
+            // TODO extract to functional subcomponent and unit test(?)
             list ? (
               <Link to={`/list_settings/${list.id}`}>
-                <Button>
+                <Button data-test="listSettingsLink">
                   <Icon type="setting" />
                 </Button>
               </Link>
@@ -90,18 +92,25 @@ class List extends Component {
         >
           {this.props.list
             ? this.props.list.days.map((day, day_index) => (
-                <Day key={day} listId={this.props.list.id} dayId={day} />
+                <Day
+                  data-test="dayComponent"
+                  key={day}
+                  listId={this.props.list.id}
+                  dayId={day}
+                />
               ))
             : null}
 
           <div style={{ display: 'flex' }}>
             <Button
+              data-test="goForward"
               style={{ marginRight: 'auto', marginTop: '20px' }}
               onClick={this.pageBack}
             >
               <Icon type="left-circle" />
             </Button>
             <Button
+              data-test="goBack"
               style={{ marginLeft: 'auto', marginTop: '20px' }}
               onClick={this.pageForward}
             >

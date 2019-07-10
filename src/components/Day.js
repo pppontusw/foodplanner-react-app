@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Card } from 'antd';
 import Entry from './Entry';
 
-class Day extends Component {
+export class Day extends Component {
   render() {
     const { day } = this.props;
     if (!day) {
@@ -13,13 +13,19 @@ class Day extends Component {
     return (
       <React.Fragment key={day.id}>
         <Card
+          data-test="dayCard"
           style={{ marginTop: '16px' }}
           type="inner"
           title={moment.utc(day.day).format('dddd')}
           extra={moment.utc(day.day).format('MMM Do')}
         >
           {day.entries.map((entry, entry_index) => (
-            <Entry key={entry} listId={this.props.listId} entryId={entry} />
+            <Entry
+              data-test="entryComponent"
+              key={entry}
+              listId={this.props.listId}
+              entryId={entry}
+            />
           ))}
         </Card>
       </React.Fragment>

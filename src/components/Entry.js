@@ -20,13 +20,11 @@ const foodsMap = (list, foods) => {
   return newFoods;
 };
 
-class NewEntry extends Component {
+export class Entry extends Component {
   state = {
     value: '',
     orig_value: '',
-    editing: false,
-    hovering: false,
-    dataSource: ['test', 'Pest']
+    editing: false
   };
 
   constructor(props) {
@@ -68,10 +66,6 @@ class NewEntry extends Component {
     });
   };
 
-  toggleHover = () => {
-    this.setState({ hovering: !this.state.hovering });
-  };
-
   onChange = e => {
     this.setState({ value: e });
   };
@@ -81,9 +75,10 @@ class NewEntry extends Component {
 
     const notEditing = (
       <div style={{ float: 'right' }}>
-        <p>
+        <p data-test="entryValue">
           {this.state.value}
           <Button
+            data-test="startEditButton"
             size="small"
             onClick={this.startEdit}
             icon="edit"
@@ -96,6 +91,7 @@ class NewEntry extends Component {
     const Editing = (
       <div style={{ float: 'right' }}>
         <AutoComplete
+          data-test="entryAutoComplete"
           style={{ width: 200 }}
           dataSource={this.props.foods}
           placeholder="Type food here"
@@ -115,6 +111,7 @@ class NewEntry extends Component {
           />
         </AutoComplete>
         <Button
+          data-test="saveEntryButton"
           style={{ marginLeft: '2px' }}
           icon="check-circle"
           // size="small"
@@ -122,6 +119,7 @@ class NewEntry extends Component {
           onClick={this.saveEntry}
         />
         <Button
+          data-test="revertEntryButton"
           style={{ marginLeft: '2px' }}
           icon="close-circle"
           // size="small"
@@ -135,9 +133,9 @@ class NewEntry extends Component {
       return null;
     }
     return (
-      <Row style={{ marginTop: '10px' }}>
+      <Row data-test="entryRow" style={{ marginTop: '10px' }}>
         <div style={{ float: 'left' }}>
-          <p>{entry.key}</p>
+          <p data-test="entryKey">{entry.key}</p>
         </div>
         {this.state.editing ? Editing : notEditing}
       </Row>
@@ -155,4 +153,4 @@ export default connect(
     };
   },
   { updateEntry }
-)(NewEntry);
+)(Entry);

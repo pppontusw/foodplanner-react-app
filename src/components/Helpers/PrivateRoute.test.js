@@ -1,52 +1,74 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { shallow } from 'enzyme';
-import { findByDataTestAttr, testStore } from './../../../Utils';
-import PrivateRoute from './PrivateRoute';
+import { testStore, fakeComponent } from './../../../Utils';
+import PrivateRouteConnected, { PrivateRoute } from './PrivateRoute';
 import Loader from './Loader';
 
-const setUp = (props = { component: Loader }, initialState = {}) => {
+const setUp = (props = { component: fakeComponent }, initialState = {}) => {
   const store = testStore(initialState);
-  // console.log(props, initialState);
-  const component = shallow(<PrivateRoute store={store} {...props} />)
+  const component = shallow(<PrivateRouteConnected store={store} {...props} />)
     .childAt(0)
     .dive();
-  // console.log(component.debug());
   return component;
 };
 
 // TODO - does this even work or have any point?
 // Since there's a Route wrapper, everything is a route
-describe('PrivateRoute Component (Unauthenticated)', () => {
+describe('PrivateRoute Component (mapStateToProps)', () => {
   let component;
   beforeEach(() => {
     component = setUp();
   });
 
-  it('redirects to login', () => {
+  it('renders using mapStateToProps', () => {
     expect(component.find(Route).length).toBe(1);
   });
 });
 
-// describe('PrivateRoute Component (Loading)', () => {
-//   let component;
-//   beforeEach(() => {
-//     const state = {
-//       auth: {
-//         isAuthenticated: false,
-//         isLoading: true
-//       }
-//     };
-//     component = setUp({ ...state }, state);
-//   });
+const propsLoggedIn = {
+  component: fakeComponent,
+  auth: {
+    isAuthenticated: true,
+    isLoading: false
+  }
+};
 
-//   it('renders Loader when loading', () => {
-//     console.log(
-//       component
-//         .dive()
-//         .dive()
-//         .debug()
-//     );
-//     expect(component.find(Loader).length).toBe(1);
-//   });
-// });
+const propsLoggedOut = {
+  component: fakeComponent,
+  auth: {
+    isAuthenticated: false,
+    isLoading: false
+  }
+};
+
+const propsLoading = {
+  component: fakeComponent,
+  auth: {
+    isAuthenticated: true,
+    isLoading: true
+  }
+};
+
+const setUpNoStore = (props = { component: fakeComponent }) => {
+  const component = shallow(<PrivateRoute {...props} />);
+  return component;
+};
+
+describe('PrivateRoute Component (No Redux)', () => {
+  it('renders the fake component when authenticated', () => {
+    const component = setUpNoStore(propsLoggedIn);
+    expect(component.prop('render')().type).toBe(fakeComponent);
+  });
+
+  it('renders the loader when loading', () => {
+    const component = setUpNoStore(propsLoading);
+    expect(component.prop('render')().type).toBe(Loader);
+  });
+
+  it('redirects to login page when not logged in', () => {
+    const component = setUpNoStore(propsLoggedOut);
+    expect(component.prop('render')().type).toBe(Redirect);
+    expect(component.prop('render')().props.to).toBe('/login');
+  });
+});

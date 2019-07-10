@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/pppontusw/foodplanner-react-app.svg?branch=master)](https://travis-ci.org/pppontusw/foodplanner-react-app)
+
+# Foodplanner React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

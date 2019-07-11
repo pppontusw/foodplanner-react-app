@@ -156,6 +156,28 @@ describe('Lists Component (without store)', () => {
     expect(mockCreateList).toBeCalledWith('TestList');
   });
 
+  it('renders loader when loading', () => {
+    component = setUpWithoutStore({
+      listsLoading: true
+    });
+
+    const listsLoading = findByDataTestAttr(component, 'listsLoading');
+    expect(listsLoading.length).toBe(1);
+  });
+
+  it('changes state correctly when onChange is called', () => {
+    const instance = component.instance();
+
+    instance.onChange({
+      target: {
+        name: 'listname',
+        value: 'something'
+      }
+    });
+
+    expect(instance.state.listname).toBe('something');
+  });
+
   it('makes data calls when mounted', async () => {
     await component.instance().componentDidMount();
     expect(mockGetLists).toBeCalled();

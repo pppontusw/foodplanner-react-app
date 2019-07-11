@@ -2,11 +2,11 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { shallow } from 'enzyme';
 import { findByDataTestAttr, testStore } from './../../../Utils';
-import Register from './Register';
+import RegisterConnected, { Register } from './Register';
 
 const setUp = (props = {}, initialState = {}) => {
   const store = testStore(initialState);
-  const component = shallow(<Register store={store} {...props} />)
+  const component = shallow(<RegisterConnected store={store} {...props} />)
     .childAt(0)
     .dive();
   return component;
@@ -74,5 +74,80 @@ describe('Register Form (Logged in)', () => {
 
   it('renders a redirect', () => {
     expect(component.find(Redirect).length).toBe(1);
+  });
+});
+
+const setUpWithoutStore = (props = {}) => {
+  const component = shallow(<Register {...props} />);
+  return component;
+};
+
+describe('Register Form (without store)', () => {
+  let component;
+  const mockRegister = jest.fn();
+  const mockCreateMessage = jest.fn();
+  beforeEach(() => {
+    component = setUpWithoutStore({
+      register: mockRegister,
+      createMessage: mockCreateMessage,
+      isAuthenticated: false
+    });
+  });
+
+  it('changes state correctly when onChange is called', () => {
+    const instance = component.instance();
+
+    instance.onChange({
+      target: {
+        name: 'username',
+        value: 'something'
+      }
+    });
+
+    expect(instance.state.username).toBe('something');
+  });
+
+  it('onSubmit will call Register', () => {
+    const instance = component.instance();
+
+    instance.state.username = 'username';
+    instance.state.email = 'email';
+    instance.state.password = 'password';
+    instance.state.password2 = 'password';
+    instance.state.firstname = 'firstname';
+    instance.state.lastname = 'lastname';
+
+    instance.onSubmit({
+      preventDefault: jest.fn()
+    });
+
+    expect(mockRegister).toBeCalled();
+    expect(mockRegister).toBeCalledWith({
+      username: 'username',
+      firstname: 'firstname',
+      lastname: 'lastname',
+      email: 'email',
+      password: 'password'
+    });
+  });
+
+  it('onSubmit will fail and create a message if passwords do not match', () => {
+    const instance = component.instance();
+
+    instance.state.username = 'username';
+    instance.state.email = 'email';
+    instance.state.password = 'password';
+    instance.state.password2 = 'password2';
+    instance.state.firstname = 'firstname';
+    instance.state.lastname = 'lastname';
+
+    instance.onSubmit({
+      preventDefault: jest.fn()
+    });
+
+    expect(mockCreateMessage).toBeCalled();
+    expect(mockCreateMessage).toBeCalledWith({
+      passwordNotMatch: 'Passwords do not match'
+    });
   });
 });

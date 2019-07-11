@@ -89,7 +89,7 @@ const categoriesMap = (list, categories) => {
   return newCategories;
 };
 
-class FoodSettings extends Component {
+export class FoodSettings extends Component {
   state = {
     new_food: '',
     modalVisible: false,
@@ -117,7 +117,11 @@ class FoodSettings extends Component {
             {record.categories.map((category, index) => {
               if (category.name) {
                 return (
-                  <Tag color={category.color} key={category.key}>
+                  <Tag
+                    data-test="categoryTag"
+                    color={category.color}
+                    key={category.key}
+                  >
                     {category.name}
                   </Tag>
                 );
@@ -235,13 +239,14 @@ class FoodSettings extends Component {
 
   render() {
     if (this.props.loading) {
-      return <Card loading={this.props.loading} />;
+      return <Card data-test="loadingCard" loading={this.props.loading} />;
     }
 
     const foodNameNotEditing = (
       <Fragment>
         {this.state.modalFoodName}
         <Button
+          data-test="startEditingFoodNameButton"
           size="small"
           onClick={this.startEditingFoodName}
           icon="edit"
@@ -253,6 +258,7 @@ class FoodSettings extends Component {
     const foodNameEditing = (
       <Fragment>
         <Input
+          data-test="editingFoodNameInput"
           style={{ width: 200 }}
           onChange={this.onChange}
           onPressEnter={this.modalFoodName}
@@ -260,17 +266,17 @@ class FoodSettings extends Component {
           value={this.state.modalFoodName}
         />
         <Button
+          data-test="editingFoodNameSaveButton"
           style={{ marginLeft: '5px' }}
           icon="check-circle"
           type="primary"
-          // size="small"
           onClick={this.saveFoodName}
         />
         <Button
+          data-test="editingFoodNameCancelButton"
           style={{ marginLeft: '5px' }}
           icon="close-circle"
           type="danger"
-          // size="small"
           onClick={this.cancelEditingFoodName}
         />
       </Fragment>
@@ -278,6 +284,7 @@ class FoodSettings extends Component {
 
     const editModal = (
       <Modal
+        data-test="editFoodModal"
         title={
           this.state.editingFoodName ? foodNameEditing : foodNameNotEditing
         }
@@ -288,9 +295,10 @@ class FoodSettings extends Component {
         confirmLoading={this.props.updatingFood}
         destroyOnClose
       >
-        <Form>
+        <Form data-test="addCategoryForm">
           <Form.Item style={{ paddingBottom: '100px' }} label="Categories">
             <Select
+              data-test="selectCategories"
               mode="tags"
               placeholder="Type to add categories.."
               defaultValue={
@@ -318,18 +326,24 @@ class FoodSettings extends Component {
     );
 
     return (
-      <div>
+      <div data-test="foodSettingsWrapper">
         {editModal}
         <Table
+          data-test="foodSettingsTable"
           columns={this.columns}
           dataSource={this.props.foods ? this.props.foods : []}
           pagination={false}
         />
         <br />
         {this.props.list ? (
-          <Form layout="vertical" onSubmit={this.onSubmit}>
+          <Form
+            data-test="newFoodForm"
+            layout="vertical"
+            onSubmit={this.onSubmit}
+          >
             <Form.Item>
               <Input
+                data-test="newFoodInput"
                 placeholder="Add a new food"
                 name="new_food"
                 onChange={this.onChange}

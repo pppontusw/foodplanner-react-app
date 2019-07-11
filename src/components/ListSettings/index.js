@@ -45,7 +45,7 @@ export class ListSettings extends Component {
     const listId = this.props.match.params.id;
 
     const cardTitleNotEditing = this.props.updatingTitle ? (
-      <Spin />
+      <Spin data-test="updatingTitleSpinner" />
     ) : (
       <Fragment>
         {this.props.list ? this.props.list.name : null}

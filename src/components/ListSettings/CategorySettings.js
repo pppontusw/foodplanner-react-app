@@ -32,7 +32,7 @@ const categoriesMap = (list, categories) => {
   return newCategories;
 };
 
-class CategorySettings extends Component {
+export class CategorySettings extends Component {
   state = {
     newCategory: ''
   };
@@ -56,19 +56,22 @@ class CategorySettings extends Component {
 
   render() {
     if (this.props.loading) {
-      return <Card loading={this.props.loading} />;
+      return <Card data-test="loadingCard" loading={this.props.loading} />;
     }
     return (
       <div>
         <List
+          data-test="categoryList"
           header={<strong>Categories</strong>}
           bordered
           dataSource={this.props.categories}
           renderItem={item => (
             <List.Item
               key={item.id}
+              data-test="listItem"
               actions={[
                 <Popconfirm
+                  data-test="popConfirmDelete"
                   title="Are you sure you want to delete this category?"
                   onConfirm={() => this.deleteCategory(item.id)}
                   okText="Yes"
@@ -89,9 +92,14 @@ class CategorySettings extends Component {
         />
         <br />
         {this.props.list ? (
-          <Form layout="vertical" onSubmit={this.onSubmit}>
+          <Form
+            data-test="newCategoryForm"
+            layout="vertical"
+            onSubmit={this.onSubmit}
+          >
             <Form.Item>
               <Input
+                data-test="newCategoryInput"
                 placeholder="Add category"
                 name="newCategory"
                 onChange={this.onChange}

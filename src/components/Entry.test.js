@@ -234,6 +234,14 @@ describe('List Component (without store)', () => {
     expect(mockUpdateEntry).toBeCalledWith('1', 'NewValue');
   });
 
+  it('changes state correctly when onChange is called', () => {
+    const instance = component.instance();
+
+    instance.onChange('something');
+
+    expect(instance.state.value).toBe('something');
+  });
+
   it('reverts the entry on revert', () => {
     const instance = component.instance();
 

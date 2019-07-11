@@ -84,6 +84,7 @@ const setUpWithoutStore = (props = {}) => {
 
 describe('Register Form (without store)', () => {
   let component;
+  let stateReg;
   const mockRegister = jest.fn();
   const mockCreateMessage = jest.fn();
   beforeEach(() => {
@@ -92,6 +93,15 @@ describe('Register Form (without store)', () => {
       createMessage: mockCreateMessage,
       isAuthenticated: false
     });
+
+    stateReg = {
+      username: 'username',
+      email: 'email',
+      password: 'password',
+      password2: 'password',
+      firstname: 'firstname',
+      lastname: 'lastname'
+    };
   });
 
   it('changes state correctly when onChange is called', () => {
@@ -110,12 +120,7 @@ describe('Register Form (without store)', () => {
   it('onSubmit will call Register', () => {
     const instance = component.instance();
 
-    instance.state.username = 'username';
-    instance.state.email = 'email';
-    instance.state.password = 'password';
-    instance.state.password2 = 'password';
-    instance.state.firstname = 'firstname';
-    instance.state.lastname = 'lastname';
+    instance.state = stateReg;
 
     instance.onSubmit({
       preventDefault: jest.fn()
@@ -134,12 +139,10 @@ describe('Register Form (without store)', () => {
   it('onSubmit will fail and create a message if passwords do not match', () => {
     const instance = component.instance();
 
-    instance.state.username = 'username';
-    instance.state.email = 'email';
-    instance.state.password = 'password';
-    instance.state.password2 = 'password2';
-    instance.state.firstname = 'firstname';
-    instance.state.lastname = 'lastname';
+    instance.state = {
+      ...stateReg,
+      password2: 'password2'
+    };
 
     instance.onSubmit({
       preventDefault: jest.fn()

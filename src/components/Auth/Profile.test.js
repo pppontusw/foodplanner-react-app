@@ -85,6 +85,7 @@ const setUpWithoutStore = (props = {}) => {
 
 describe('Profile Form (without store)', () => {
   let component;
+  let stateProf;
   const mockUpdateUser = jest.fn();
   const mockCreateMessage = jest.fn();
   beforeEach(() => {
@@ -99,6 +100,15 @@ describe('Profile Form (without store)', () => {
         id: 1
       }
     });
+
+    stateProf = {
+      username: 'username',
+      email: 'email',
+      password: 'password',
+      password2: 'password',
+      firstname: 'firstname',
+      lastname: 'lastname'
+    };
   });
 
   it('changes state correctly when onChange is called', () => {
@@ -106,12 +116,12 @@ describe('Profile Form (without store)', () => {
 
     instance.onChange({
       target: {
-        name: 'username',
+        name: 'password',
         value: 'something'
       }
     });
 
-    expect(instance.state.username).toBe('something');
+    expect(instance.state.password).toBe('something');
   });
 
   it('copies to local state when component is mounted', async () => {
@@ -127,12 +137,7 @@ describe('Profile Form (without store)', () => {
   it('onSubmit will call updateUser', () => {
     const instance = component.instance();
 
-    instance.state.username = 'username';
-    instance.state.email = 'email';
-    instance.state.password = 'password';
-    instance.state.password2 = 'password';
-    instance.state.firstname = 'firstname';
-    instance.state.lastname = 'lastname';
+    instance.state = stateProf;
 
     instance.onSubmit({
       preventDefault: jest.fn()
@@ -148,15 +153,13 @@ describe('Profile Form (without store)', () => {
     });
   });
 
-  it('onSubmit will fail and create a message if passwords do not match', () => {
+  it('onSubmit will fail and send a message if passwords do not match', () => {
     const instance = component.instance();
 
-    instance.state.username = 'username';
-    instance.state.email = 'email';
-    instance.state.password = 'password';
-    instance.state.password2 = 'password2';
-    instance.state.firstname = 'firstname';
-    instance.state.lastname = 'lastname';
+    instance.state = {
+      ...stateProf,
+      password2: 'password2'
+    };
 
     instance.onSubmit({
       preventDefault: jest.fn()

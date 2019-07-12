@@ -15,7 +15,7 @@ import { getList } from './lists';
 export const getCategoriesByList = list_id => dispatch => {
   let url = `${API_BASE_URL}/api/lists/${list_id}/categories`;
   dispatch({ type: GET_CATEGORIES });
-  axios
+  return axios
     .get(url, axios_config)
     .then(res => {
       dispatch({ type: GET_CATEGORIES_SUCCESS, payload: res.data });
@@ -32,7 +32,7 @@ export const newCategory = (list_id, new_category_name) => dispatch => {
 
   let url = `${API_BASE_URL}/api/lists/${list_id}/categories`;
   dispatch({ type: NEW_CATEGORY });
-  axios
+  return axios
     .post(url, body, axios_config)
     .then(res => {
       dispatch({ type: NEW_CATEGORY_SUCCESS, payload: res.data });
@@ -46,7 +46,7 @@ export const newCategory = (list_id, new_category_name) => dispatch => {
 export const deleteCategory = (list_id, category_id) => dispatch => {
   let url = `${API_BASE_URL}/api/lists/${list_id}/categories/${category_id}`;
   dispatch({ type: DELETE_CATEGORY });
-  axios
+  return axios
     .delete(url, axios_config)
     .then(res => {
       dispatch({ type: DELETE_CATEGORY_SUCCESS, payload: res.data });

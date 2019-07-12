@@ -22,7 +22,7 @@ export const getMealsByList = (
   if (!suppressLoading) {
     dispatch({ type: GET_MEALS });
   }
-  axios
+  return axios
     .get(url, axios_config)
     .then(res => {
       dispatch({ type: GET_MEALS_SUCCESS, payload: res.data });
@@ -39,7 +39,7 @@ export const newMeal = (list_id, new_meal_name) => dispatch => {
 
   let url = `${API_BASE_URL}/api/lists/${list_id}/meals`;
   dispatch({ type: NEW_MEAL });
-  axios
+  return axios
     .post(url, body, axios_config)
     .then(res => {
       dispatch({ type: NEW_MEAL_SUCCESS, payload: res.data });
@@ -58,7 +58,7 @@ export const putMeals = (list_id, data) => dispatch => {
 
   let url = `${API_BASE_URL}/api/lists/${list_id}/meals`;
   dispatch({ type: PUT_MEALS });
-  axios
+  return axios
     .put(url, body, axios_config)
     .then(res => {
       dispatch({ type: PUT_MEALS_SUCCESS, payload: res.data });
@@ -72,7 +72,7 @@ export const putMeals = (list_id, data) => dispatch => {
 export const deleteMeal = (list_id, meal_id) => dispatch => {
   let url = `${API_BASE_URL}/api/lists/${list_id}/meals/${meal_id}`;
   dispatch({ type: DELETE_MEAL });
-  axios
+  return axios
     .delete(url, axios_config)
     .then(res => {
       dispatch({ type: DELETE_MEAL_SUCCESS, payload: res.data });

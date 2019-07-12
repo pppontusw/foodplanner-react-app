@@ -29,7 +29,7 @@ export const loadUser = () => (dispatch, getState) => {
   // User Loading
   dispatch({ type: USER_LOADING });
 
-  axios
+  return axios
     .get(`${API_BASE_URL}/api/auth/user`, { withCredentials: true })
     .then(res => {
       dispatch({
@@ -38,8 +38,7 @@ export const loadUser = () => (dispatch, getState) => {
       });
     })
     .catch(err => {
-      console.log(err);
-      // dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: AUTH_ERROR
       });
@@ -54,7 +53,7 @@ export const login = (username, password) => dispatch => {
   // Request Body
   const body = JSON.stringify({ username, password });
 
-  axios
+  return axios
     .post(`${API_BASE_URL}/api/auth/login`, body, axios_config)
     .then(res => {
       dispatch({
@@ -87,7 +86,7 @@ export const register = ({
     password
   });
 
-  axios
+  return axios
     .post(`${API_BASE_URL}/api/users`, body, axios_config)
     .then(res => {
       dispatch({
@@ -116,7 +115,7 @@ export const updateUser = (
     password
   });
 
-  axios
+  return axios
     .put(`${API_BASE_URL}/api/users/${user_id}`, body, axios_config)
     .then(res => {
       dispatch({
@@ -132,7 +131,7 @@ export const updateUser = (
 
 // LOGOUT USER
 export const logout = () => (dispatch, getState) => {
-  axios
+  return axios
     .get(`${API_BASE_URL}/api/auth/logout`, { withCredentials: true })
     .then(res => {
       dispatch({ type: LOGOUT_SUCCESS });

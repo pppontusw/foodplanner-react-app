@@ -120,6 +120,14 @@ describe('ListSettings Component (without store)', () => {
     });
   });
 
+  it('calls for data when mounted', async () => {
+    await component.instance().componentDidMount();
+    expect(mockGetList).toBeCalled();
+    expect(mockGetSharesByList).toBeCalled();
+    expect(mockGetList).toBeCalledWith(1);
+    expect(mockGetSharesByList).toBeCalledWith(1);
+  });
+
   it('sets editing and title when startEdit is called', () => {
     const instance = component.instance();
 
@@ -129,12 +137,28 @@ describe('ListSettings Component (without store)', () => {
     expect(instance.state.listTitle).toBe('List1');
   });
 
-  it('calls for data when mounted', async () => {
-    await component.instance().componentDidMount();
-    expect(mockGetList).toBeCalled();
-    expect(mockGetSharesByList).toBeCalled();
-    expect(mockGetList).toBeCalledWith(1);
-    expect(mockGetSharesByList).toBeCalledWith(1);
+  it('onChange updates the event values', () => {
+    const instance = component.instance();
+
+    instance.onChange({
+      target: {
+        name: 'listTitle',
+        value: 'NewTitle'
+      }
+    });
+
+    expect(instance.state.listTitle).toBe('NewTitle');
+  });
+
+  it('cancelEditing sets editingListTitle to false', () => {
+    const instance = component.instance();
+    instance.state.editingListTitle = true;
+
+    expect(instance.state.editingListTitle).toBe(true);
+
+    instance.cancelEditing();
+
+    expect(instance.state.editingListTitle).toBe(false);
   });
 
   it('renders save and revert buttons when editing is true', () => {
@@ -170,48 +194,33 @@ describe('ListSettings Component (without store)', () => {
     expect(cancelEditing.props['onClick']).toBe(instance.cancelEditing);
   });
 
-  //   it('updates the entry on save', () => {
-  //     const instance = component.instance();
+  it('updates the title on save', () => {
+    const instance = component.instance();
 
-  //     instance.state.editing = true;
-  //     instance.state.value = 'NewValue';
+    instance.state.listTitle = 'NewTitle';
+    instance.state.editingListTitle = true;
 
-  //     component.update();
+    component.update();
 
-  //     instance.saveEntry();
+    instance.saveTitle();
 
-  //     expect(instance.state.editing).toBe(false);
-  //     expect(instance.state.orig_value).toBe('NewValue');
-  //     expect(mockUpdateEntry).toBeCalled();
-  //     expect(mockUpdateEntry).toBeCalledWith('1', 'NewValue');
-  //   });
+    expect(instance.state.editingListTitle).toBe(false);
+    expect(mockRenameList).toBeCalled();
+    expect(mockRenameList).toBeCalledWith(1, 'NewTitle');
+  });
 
-  //   it('updates the entry onSelect', () => {
-  //     const instance = component.instance();
+  it('renders a spinner when listTitle is updating', () => {
+    component = setUpWithoutStore({
+      updatingTitle: true,
+      ...props
+    });
 
-  //     instance.state.editing = true;
+    const listSettingsCard = findByDataTestAttr(component, 'listSettingsCard');
 
-  //     component.update();
+    const updatingTitleSpinner = listSettingsCard.prop('title').props[
+      'data-test'
+    ];
 
-  //     instance.onSelect('NewValue', {});
-
-  //     expect(instance.state.editing).toBe(false);
-  //     expect(instance.state.orig_value).toBe('NewValue');
-  //     expect(mockUpdateEntry).toBeCalled();
-  //     expect(mockUpdateEntry).toBeCalledWith('1', 'NewValue');
-  //   });
-
-  //   it('reverts the entry on revert', () => {
-  //     const instance = component.instance();
-
-  //     instance.state.editing = true;
-  //     instance.state.orig_value = 'RevertedValue';
-
-  //     component.update();
-
-  //     instance.revertEntry();
-
-  //     expect(instance.state.editing).toBe(false);
-  //     expect(instance.state.value).toBe('RevertedValue');
-  //   });
+    expect(updatingTitleSpinner).toBe('updatingTitleSpinner');
+  });
 });

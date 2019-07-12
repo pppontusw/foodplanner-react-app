@@ -3,7 +3,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 
 let dragingIndex = -1;
 
-class BodyRow extends Component {
+export class BodyRow extends Component {
   render() {
     const {
       isOver,
@@ -32,7 +32,7 @@ class BodyRow extends Component {
   }
 }
 
-const rowSource = {
+export const rowSource = {
   beginDrag(props) {
     dragingIndex = props.index;
     return {
@@ -41,7 +41,7 @@ const rowSource = {
   }
 };
 
-const rowTarget = {
+export const rowTarget = {
   drop(props, monitor) {
     const dragIndex = monitor.getItem().index;
     const hoverIndex = props.index;

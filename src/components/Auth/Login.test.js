@@ -2,11 +2,11 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { shallow } from 'enzyme';
 import { findByDataTestAttr, testStore } from './../../../Utils';
-import Login from './Login';
+import LoginConnected, { Login } from './Login';
 
 const setUp = (props = {}, initialState = {}) => {
   const store = testStore(initialState);
-  const component = shallow(<Login store={store} {...props} />)
+  const component = shallow(<LoginConnected store={store} {...props} />)
     .childAt(0)
     .dive();
   return component;
@@ -62,5 +62,47 @@ describe('Login Form (Logged in)', () => {
 
   it('renders a redirect', () => {
     expect(component.find(Redirect).length).toBe(1);
+  });
+});
+
+const setUpWithoutStore = (props = {}) => {
+  const component = shallow(<Login {...props} />);
+  return component;
+};
+
+describe('Login Form (without store)', () => {
+  let component;
+  const mockLogin = jest.fn();
+  beforeEach(() => {
+    component = setUpWithoutStore({
+      login: mockLogin
+    });
+  });
+
+  it('changes state correctly when onChange is called', () => {
+    const instance = component.instance();
+
+    instance.onChange({
+      target: {
+        name: 'username',
+        value: 'something'
+      }
+    });
+
+    expect(instance.state.username).toBe('something');
+  });
+
+  it('onSubmit will call login', () => {
+    const instance = component.instance();
+
+    instance.state.username = 'username';
+    instance.state.password = 'password';
+
+    instance.onSubmit({
+      preventDefault: jest.fn()
+    });
+
+    expect(mockLogin).toBeCalled();
+    expect(mockLogin).toBeCalledWith('username', 'password');
   });
 });

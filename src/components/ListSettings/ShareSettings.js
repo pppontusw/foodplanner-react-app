@@ -28,7 +28,7 @@ const sharesMap = (list, shares) => {
   return newShares;
 };
 
-class ShareSettings extends Component {
+export class ShareSettings extends Component {
   state = {
     new_share: ''
   };
@@ -48,21 +48,24 @@ class ShareSettings extends Component {
 
   render() {
     if (this.props.loading) {
-      return <Card loading={this.props.loading} />;
+      return <Card data-test="loadingCard" loading={this.props.loading} />;
     }
     return (
       <div>
         <List
+          data-test="shareList"
           header={<strong>Shared with</strong>}
           bordered
           dataSource={this.props.shares}
           renderItem={item => (
             <List.Item
+              data-test="shareListItem"
               key={item.id}
               actions={
                 item.permission_level === 'member' && this.props.list.is_owner
                   ? [
                       <Popconfirm
+                        data-test="popConfirmDelete"
                         title="Are you sure you want to delete this share?"
                         onConfirm={() => this.deleteShare(item.id)}
                         okText="Yes"
@@ -96,9 +99,14 @@ class ShareSettings extends Component {
         />
         <br />
         {this.props.list && this.props.list.is_owner ? (
-          <Form layout="vertical" onSubmit={this.onSubmit}>
+          <Form
+            data-test="newShareForm"
+            layout="vertical"
+            onSubmit={this.onSubmit}
+          >
             <Form.Item>
               <Input
+                data-test="newShareInput"
                 placeholder="Add another user"
                 name="new_share"
                 onChange={this.onChange}

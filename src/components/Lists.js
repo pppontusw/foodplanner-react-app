@@ -53,7 +53,7 @@ export class Lists extends Component {
 
   render() {
     if (this.props.listsLoading) {
-      return <Loader />;
+      return <Loader data-test="listsLoading" />;
     }
     return (
       <Fragment>

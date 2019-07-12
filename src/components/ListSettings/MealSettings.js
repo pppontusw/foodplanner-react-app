@@ -37,10 +37,9 @@ const mealsMap = (list, meals) => {
   return newMeals;
 };
 
-class MealSettings extends Component {
+export class MealSettings extends Component {
   state = {
-    new_meal: '',
-    data: []
+    new_meal: ''
   };
 
   components = {
@@ -61,6 +60,7 @@ class MealSettings extends Component {
       align: 'right',
       render: (text, record) => (
         <Popconfirm
+          data-test="popConfirmDelete"
           title="Are you sure you want to delete this meal?"
           onConfirm={() => this.deleteMeal(record.id)}
           okText="Yes"
@@ -106,12 +106,13 @@ class MealSettings extends Component {
 
   render() {
     if (this.props.loading) {
-      return <Card loading={this.props.loading} />;
+      return <Card data-test="loadingCard" loading={this.props.loading} />;
     }
     return (
-      <div>
+      <div data-test="mealSettingsWrapper">
         <DndProvider backend={HTML5Backend}>
           <Table
+            data-test="mealSettingsTable"
             columns={this.columns}
             dataSource={this.props.meals ? this.props.meals : []}
             components={this.components}
@@ -124,9 +125,14 @@ class MealSettings extends Component {
         </DndProvider>
         <br />
         {this.props.list ? (
-          <Form layout="vertical" onSubmit={this.onSubmit}>
+          <Form
+            data-test="addMealForm"
+            layout="vertical"
+            onSubmit={this.onSubmit}
+          >
             <Form.Item>
               <Input
+                data-test="newMealInput"
                 placeholder="Add a new meal"
                 name="new_meal"
                 onChange={this.onChange}

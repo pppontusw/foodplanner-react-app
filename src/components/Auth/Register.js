@@ -6,7 +6,7 @@ import { register } from '../../actions/auth';
 import { createMessage } from '../../actions/messages';
 import { Form, Button, Input } from 'antd';
 
-class Register extends Component {
+export class Register extends Component {
   state = {
     username: '',
     email: '',

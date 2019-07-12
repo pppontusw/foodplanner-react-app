@@ -4,7 +4,7 @@ import { updateUser } from '../../actions/auth';
 import { createMessage } from '../../actions/messages';
 import { Form, Button, Input } from 'antd';
 
-class Profile extends Component {
+export class Profile extends Component {
   state = {
     username: '',
     email: '',

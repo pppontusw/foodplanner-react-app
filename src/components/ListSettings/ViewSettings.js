@@ -5,62 +5,93 @@ import { putListSettings } from '../../actions/lists';
 
 const { Option } = Select;
 
-class ViewSettings extends Component {
+export class ViewSettings extends Component {
+  state = {
+    days_to_display: false,
+    start_day_of_week: false
+  };
   onSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const { days_to_display, start_day_of_week } = values;
-        const { listId } = this.props;
-        this.props.putListSettings(listId, days_to_display, start_day_of_week);
-      }
-    });
+    let { days_to_display, start_day_of_week } = this.state;
+    const { listId } = this.props;
+
+    if (!days_to_display) {
+      days_to_display = this.props.list.settings.days_to_display;
+    }
+
+    if (!start_day_of_week) {
+      start_day_of_week = this.props.list.settings.start_day_of_week;
+    }
+
+    this.props.putListSettings(listId, days_to_display, start_day_of_week);
   };
+
+  changeStartDay = value => this.setState({ start_day_of_week: value });
+
+  changeDaysToDisplay = value => this.setState({ days_to_display: value });
 
   render() {
     if (this.props.loading) {
-      return <Card loading={this.props.loading} />;
+      return <Card data-test="loadingCard" loading={this.props.loading} />;
     }
 
     const { days_to_display, start_day_of_week } =
       this.props.list.settings || {};
-    const { getFieldDecorator } = this.props.form;
 
     return (
-      <Form onSubmit={this.onSubmit}>
+      <Form data-test="viewSettingsForm" onSubmit={this.onSubmit}>
         <Form.Item label="Number of days to display">
-          {getFieldDecorator('days_to_display', {
-            rules: [],
-            initialValue: days_to_display
-          })(
-            <Select>
-              {[...Array(21)].map((x, i) => (
-                <Option value={i + 3} key={i + 3}>
-                  {i + 3}
-                </Option>
-              ))}
-            </Select>
-          )}
+          <Select
+            defaultValue={days_to_display}
+            onChange={this.changeDaysToDisplay}
+            name="days_to_display"
+          >
+            {[...Array(21)].map((x, i) => (
+              <Option data-test="valueOption" value={i + 3} key={i + 3}>
+                {i + 3}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
         <Form.Item label="Start day of the week">
-          {getFieldDecorator('start_day_of_week', {
-            rules: [],
-            initialValue: start_day_of_week
-          })(
-            <Select>
-              <Option value="Today">Today</Option>
-              <Option value="Monday">Monday</Option>
-              <Option value="Tuesday">Tuesday</Option>
-              <Option value="Wednesday">Wednesday</Option>
-              <Option value="Thursday">Thursday</Option>
-              <Option value="Friday">Friday</Option>
-              <Option value="Saturday">Saturday</Option>
-              <Option value="Sunday">Sunday</Option>
-            </Select>
-          )}
+          <Select
+            defaultValue={start_day_of_week}
+            onChange={this.changeStartDay}
+            name="start_day_of_week"
+          >
+            <Option data-test="dayOption" value="Today">
+              Today
+            </Option>
+            <Option data-test="dayOption" value="Monday">
+              Monday
+            </Option>
+            <Option data-test="dayOption" value="Tuesday">
+              Tuesday
+            </Option>
+            <Option data-test="dayOption" value="Wednesday">
+              Wednesday
+            </Option>
+            <Option data-test="dayOption" value="Thursday">
+              Thursday
+            </Option>
+            <Option data-test="dayOption" value="Friday">
+              Friday
+            </Option>
+            <Option data-test="dayOption" value="Saturday">
+              Saturday
+            </Option>
+            <Option data-test="dayOption" value="Sunday">
+              Sunday
+            </Option>
+          </Select>
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" type="primary">
+          <Button
+            data-test="submitButton"
+            htmlType="submit"
+            onClick={this.onSubmit}
+            type="primary"
+          >
             <Icon type="save" /> Save
           </Button>
         </Form.Item>
@@ -68,10 +99,6 @@ class ViewSettings extends Component {
     );
   }
 }
-
-const WrappedViewSettingsForm = Form.create({ name: 'view_settings' })(
-  ViewSettings
-);
 
 export default connect(
   (state, props) => {
@@ -84,4 +111,4 @@ export default connect(
     };
   },
   { putListSettings }
-)(WrappedViewSettingsForm);
+)(ViewSettings);

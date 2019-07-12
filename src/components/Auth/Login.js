@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 import { Form, Button, Icon, Input } from 'antd';
 
-class Login extends Component {
+export class Login extends Component {
   state = {
     username: '',
     password: ''

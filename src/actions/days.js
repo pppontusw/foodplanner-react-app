@@ -17,7 +17,7 @@ export const getDaysByList = (
   if (!suppressLoading) {
     dispatch({ type: GET_DAYS });
   }
-  axios
+  return axios
     .get(url, axios_config)
     .then(res => {
       dispatch({ type: GET_DAYS_SUCCESS, payload: res.data });
@@ -40,7 +40,7 @@ export const getDays = (
   if (start_today) {
     url += `&start_today=${start_today}`;
   }
-  axios
+  return axios
     .get(url, axios_config)
     .then(res => {
       dispatch({ type: GET_ALL_DAYS_SUCCESS, payload: res.data });

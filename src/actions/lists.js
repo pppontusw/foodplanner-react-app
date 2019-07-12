@@ -3,7 +3,6 @@ import {
   GET_LIST,
   CLEAR_LISTS,
   NEW_LIST,
-  GET_LIST_SETTINGS,
   GET_LISTS_SUCCESS,
   GET_LIST_SUCCESS,
   PUT_LIST_SETTINGS,
@@ -30,7 +29,7 @@ export const getLists = (
   if (start_today) {
     url += `&start_today=${start_today}`;
   }
-  axios
+  return axios
     .get(url, axios_config)
     .then(res => {
       dispatch({ type: GET_LISTS_SUCCESS, payload: res.data });
@@ -53,7 +52,7 @@ export const getList = (
   if (!suppressLoading) {
     dispatch({ type: GET_LIST });
   }
-  axios
+  return axios
     .get(url, axios_config)
     .then(res => {
       dispatch({ type: GET_LIST_SUCCESS, payload: res.data });
@@ -65,7 +64,6 @@ export const getList = (
 
 export const createList = (
   listname,
-  offset = 0,
   limit = 2,
   start_today = true
 ) => dispatch => {
@@ -73,7 +71,7 @@ export const createList = (
     listname: listname
   };
 
-  axios
+  return axios
     .post(
       `${API_BASE_URL}/api/lists?start_today=${start_today}&limit=${limit}`,
       body,
@@ -84,8 +82,8 @@ export const createList = (
         type: NEW_LIST,
         payload: res.data
       });
-      dispatch(getDaysByList(res.data.id, offset, limit, start_today));
-      dispatch(getEntriesByList(res.data.id, offset, limit, start_today));
+      dispatch(getDaysByList(res.data.id, 0, limit, false));
+      dispatch(getEntriesByList(res.data.id, 0, limit, false));
     })
     .catch(err => {
       dispatch(returnErrors(err));
@@ -101,25 +99,11 @@ export const renameList = (list_id, listname) => dispatch => {
     type: UPDATE_LIST_TITLE
   });
 
-  axios
+  return axios
     .patch(`${API_BASE_URL}/api/lists/${list_id}`, body, axios_config)
     .then(res => {
       dispatch({
         type: GET_LIST_SUCCESS,
-        payload: res.data
-      });
-    })
-    .catch(err => {
-      dispatch(returnErrors(err));
-    });
-};
-
-export const getListSettings = lid => dispatch => {
-  axios
-    .get(`${API_BASE_URL}/api/list_settings/${lid}`, axios_config)
-    .then(res => {
-      dispatch({
-        type: GET_LIST_SETTINGS,
         payload: res.data
       });
     })
@@ -138,7 +122,7 @@ export const putListSettings = (
     start_day_of_week
   };
 
-  axios
+  return axios
     .put(`${API_BASE_URL}/api/lists/${list_id}/settings`, body, axios_config)
     .then(res => {
       dispatch({

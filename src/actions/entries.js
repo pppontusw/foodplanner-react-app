@@ -22,7 +22,7 @@ export const getEntriesByList = (
   if (!suppressLoading) {
     dispatch({ type: GET_ENTRIES });
   }
-  axios
+  return axios
     .get(url, axios_config)
     .then(res => {
       dispatch({ type: GET_ENTRIES_SUCCESS, payload: res.data });
@@ -45,7 +45,7 @@ export const getEntries = (
   if (start_today) {
     url += `&start_today=${start_today}`;
   }
-  axios
+  return axios
     .get(url, axios_config)
     .then(res => {
       dispatch({
@@ -63,7 +63,7 @@ export const updateEntry = (entry_id, text) => dispatch => {
     value: text
   };
 
-  axios
+  return axios
     .patch(`${API_BASE_URL}/api/entries/${entry_id}`, body, axios_config)
     .then(res => {
       dispatch({

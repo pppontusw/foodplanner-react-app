@@ -13,4 +13,4 @@ deploy:
   skip_cleanup: true
   script: 'pip install awscli --user && npm run build && npm run deploy'
   on:
-    all_branches: true
+    branch: master

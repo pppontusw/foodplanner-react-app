@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/auth';
 import { createMessage } from '../../actions/messages';
-import { Form, Button, Input } from 'antd';
+import { Form, Button, Input, Card } from 'antd';
 
 export class Register extends Component {
   state = {
@@ -60,94 +60,100 @@ export class Register extends Component {
       password2
     } = this.state;
     return (
-      <Form
-        data-test="registerForm"
-        onSubmit={this.onSubmit}
-        layout="horizontal"
-        style={{ maxWidth: '800px', margin: '20px auto' }}
+      <Card
+        style={{
+          margin: '20px auto',
+          maxWidth: '500px'
+        }}
       >
-        <h2 className="text-center">Register</h2>
-        <Form.Item className="form-group">
-          <Input
-            data-test="username"
-            type="text"
-            className="form-control"
-            name="username"
-            onChange={this.onChange}
-            value={username}
-            placeholder="Username"
-          />
-        </Form.Item>
-        <Form.Item className="form-group">
-          <Input
-            data-test="email"
-            type="email"
-            className="form-control"
-            name="email"
-            onChange={this.onChange}
-            value={email}
-            placeholder="Email"
-          />
-        </Form.Item>
-        <Form.Item className="form-group">
-          <Input
-            data-test="firstname"
-            type="text"
-            className="form-control"
-            name="firstname"
-            onChange={this.onChange}
-            value={firstname}
-            placeholder="Firstname"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            data-test="lastname"
-            type="text"
-            className="form-control"
-            name="lastname"
-            onChange={this.onChange}
-            value={lastname}
-            placeholder="Lastname"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            data-test="password"
-            type="password"
-            className="form-control"
-            name="password"
-            onChange={this.onChange}
-            value={password}
-            placeholder="Password"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            data-test="password2"
-            // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            type="password"
-            className="form-control"
-            name="password2"
-            onChange={this.onChange}
-            value={password2}
-            placeholder="Confirm Password"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Button
-            data-test="registerSubmitButton"
-            type="primary"
-            htmlType="submit"
-            style={{ width: '100%' }}
-          >
-            Register
-          </Button>
-          <p>
-            Already have an account? <Link to="/login">Login</Link>
-          </p>
-        </Form.Item>
-      </Form>
+        <Form
+          data-test="registerForm"
+          onSubmit={this.onSubmit}
+          layout="horizontal"
+        >
+          <h2 className="text-center">Register</h2>
+          <Form.Item className="form-group">
+            <Input
+              data-test="username"
+              type="text"
+              className="form-control"
+              name="username"
+              onChange={this.onChange}
+              value={username}
+              placeholder="Username"
+            />
+          </Form.Item>
+          <Form.Item className="form-group">
+            <Input
+              data-test="email"
+              type="email"
+              className="form-control"
+              name="email"
+              onChange={this.onChange}
+              value={email}
+              placeholder="Email"
+            />
+          </Form.Item>
+          <Form.Item className="form-group">
+            <Input
+              data-test="firstname"
+              type="text"
+              className="form-control"
+              name="firstname"
+              onChange={this.onChange}
+              value={firstname}
+              placeholder="Firstname"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Input
+              data-test="lastname"
+              type="text"
+              className="form-control"
+              name="lastname"
+              onChange={this.onChange}
+              value={lastname}
+              placeholder="Lastname"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Input
+              data-test="password"
+              type="password"
+              className="form-control"
+              name="password"
+              onChange={this.onChange}
+              value={password}
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Input
+              data-test="password2"
+              // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="password"
+              className="form-control"
+              name="password2"
+              onChange={this.onChange}
+              value={password2}
+              placeholder="Confirm Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              data-test="registerSubmitButton"
+              type="primary"
+              htmlType="submit"
+              style={{ width: '100%' }}
+            >
+              Register
+            </Button>
+            <p>
+              Already have an account? <Link to="/login">Login</Link>
+            </p>
+          </Form.Item>
+        </Form>
+      </Card>
     );
   }
 }

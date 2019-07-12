@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
-import { Form, Button, Icon, Input } from 'antd';
+import { Form, Button, Icon, Input, Card } from 'antd';
 
 export class Login extends Component {
   state = {
@@ -29,56 +29,63 @@ export class Login extends Component {
     }
     const { username, password } = this.state;
     return (
-      <Form
-        data-test="loginForm"
-        onSubmit={this.onSubmit}
-        style={{ maxWidth: '500px', margin: '20px auto' }}
+      <Card
+        style={{
+          margin: '20px auto',
+          maxWidth: '500px'
+        }}
       >
-        <h3 className="text-center">Sign in</h3>
-        <Form.Item>
-          <Input
-            data-test="username"
-            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Username"
-            name="username"
-            onChange={this.onChange}
-            value={username}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            data-test="password"
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Password"
-            name="password"
-            type="password"
-            onChange={this.onChange}
-            value={password}
-          />
-        </Form.Item>
-        <Form.Item>
-          {/* <Checkbox>Remember me</Checkbox> */}
-          <Button
-            data-test="loginButton"
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
-            style={{ width: '100%' }}
-          >
-            Log in
-          </Button>
-          <Link
-            data-test="forgotPassword"
-            className="login-form-forgot"
-            to="/forgot"
-          >
-            Forgot password
-          </Link>
-          <Link data-test="register" to="/register" style={{ float: 'right' }}>
-            Or register now!
-          </Link>
-        </Form.Item>
-      </Form>
+        <Form data-test="loginForm" onSubmit={this.onSubmit}>
+          <h3 className="text-center">Sign in</h3>
+          <Form.Item>
+            <Input
+              data-test="username"
+              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Username"
+              name="username"
+              onChange={this.onChange}
+              value={username}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Input
+              data-test="password"
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Password"
+              name="password"
+              type="password"
+              onChange={this.onChange}
+              value={password}
+            />
+          </Form.Item>
+          <Form.Item>
+            {/* <Checkbox>Remember me</Checkbox> */}
+            <Button
+              data-test="loginButton"
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+              style={{ width: '100%' }}
+            >
+              Log in
+            </Button>
+            <Link
+              data-test="forgotPassword"
+              className="login-form-forgot"
+              to="/forgot"
+            >
+              Forgot password
+            </Link>
+            <Link
+              data-test="register"
+              to="/register"
+              style={{ float: 'right' }}
+            >
+              Or register now!
+            </Link>
+          </Form.Item>
+        </Form>
+      </Card>
     );
   }
 }

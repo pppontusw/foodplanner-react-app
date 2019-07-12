@@ -138,7 +138,8 @@ export class FoodSettings extends Component {
       align: 'right',
       render: (text, record) => (
         <Fragment>
-          <a href="javascript:;" onClick={() => this.openModal(record)}>
+          {/* eslint-disable-next-line */}
+          <a href="" onClick={() => this.openModal(record)}>
             Edit
           </a>
           <Divider type="vertical" />
@@ -148,7 +149,8 @@ export class FoodSettings extends Component {
             okText="Yes"
             cancelText="No"
           >
-            <a href="javascript:;">Delete</a>
+            {/* eslint-disable-next-line */}
+            <a href="">Delete</a>
           </Popconfirm>
         </Fragment>
       )

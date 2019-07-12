@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from 'react';
-// import { Provider as AlertProvider } from 'react-alert';
-// import AlertTemplate from 'react-alert-template-basic';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Lists from './components/Lists';

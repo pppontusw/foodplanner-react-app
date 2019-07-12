@@ -7,3 +7,10 @@ cache:
 script:
   - npm install -g codecov
   - CI=true npm test -- --coverage && codecov
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: 'npm run build && npm run deploy'
+  on:
+    all_branches: true

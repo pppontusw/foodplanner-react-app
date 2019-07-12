@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { findByDataTestAttr, testStore } from './../../Utils';
-import DayConnected, { Day } from './Day';
+import DayConnected from './Day';
 
-const setUp = (props = {}, initialState = {}) => {
+const setUp = (compProps = {}, initialState = {}) => {
   const store = testStore(initialState);
-  const component = shallow(<DayConnected store={store} {...props} />)
+  const component = shallow(<DayConnected store={store} {...compProps} />)
     .childAt(0)
     .dive();
   return component;

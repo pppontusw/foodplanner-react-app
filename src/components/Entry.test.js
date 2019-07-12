@@ -3,16 +3,16 @@ import { shallow } from 'enzyme';
 import { findByDataTestAttr, testStore } from './../../Utils';
 import EntryConnected, { Entry } from './Entry';
 
-const setUp = (props = {}, initialState = {}) => {
+const setUp = (compProps = {}, initialState = {}) => {
   const store = testStore(initialState);
-  const component = shallow(<EntryConnected store={store} {...props} />)
+  const component = shallow(<EntryConnected store={store} {...compProps} />)
     .childAt(0)
     .dive();
   return component;
 };
 
-const setUpWithoutStore = (props = {}) => {
-  const component = shallow(<Entry {...props} />);
+const setUpWithoutStore = (compProps = {}) => {
+  const component = shallow(<Entry {...compProps} />);
   return component;
 };
 

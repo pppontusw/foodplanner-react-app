@@ -20,7 +20,7 @@ describe('Body Row component', () => {
   };
 
   it('renders without error', () => {
-    component = setUpWithoutStore(props);
+    setUpWithoutStore(props);
     expect(mockConnectDragSource).toBeCalled();
     expect(mockConnectDropTarget).toBeCalled();
   });
@@ -31,7 +31,7 @@ describe('Body Row component', () => {
       index: 3,
       className: 'test'
     };
-    component = setUpWithoutStore(props);
+    setUpWithoutStore(props);
     expect(mockConnectDragSource).toBeCalled();
     expect(mockConnectDropTarget).toBeCalled();
   });
@@ -41,7 +41,7 @@ describe('Body Row component', () => {
       ...props,
       index: -3
     };
-    component = setUpWithoutStore(props);
+    setUpWithoutStore(props);
     expect(mockConnectDragSource).toBeCalled();
     expect(mockConnectDropTarget).toBeCalled();
   });

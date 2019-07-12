@@ -5,7 +5,6 @@ import {
   getList,
   createList,
   renameList,
-  getListSettings,
   putListSettings
 } from './lists';
 import * as types from './types';

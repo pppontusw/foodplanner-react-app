@@ -1,12 +1,6 @@
 import { mockStore } from './../../Utils';
 import moxios from 'moxios';
-import {
-  getEntriesByList,
-  newEntry,
-  deleteEntry,
-  getEntries,
-  updateEntry
-} from './entries';
+import { getEntriesByList, getEntries, updateEntry } from './entries';
 import * as types from './types';
 
 describe('Entries action creators', () => {

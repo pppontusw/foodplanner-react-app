@@ -13,23 +13,36 @@ import CategorySettings from './CategorySettings';
 export class ListSettings extends Component {
   state = {
     listTitle: 'Test',
-    editingListTitle: false
+    editingListTitle: false,
+    windowWidth: window.innerWidth
   };
 
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.getList(id);
     this.props.getSharesByList(id);
+    window.addEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange);
   }
 
   startEdit = () => {
-    this.setState({ editingListTitle: true, listTitle: this.props.list.name });
+    this.setState({
+      editingListTitle: true,
+      listTitle: this.props.list.name
+    });
   };
 
   saveTitle = () => {
     this.setState({ editingListTitle: false });
     const newValue = this.state.listTitle;
     this.props.renameList(this.props.match.params.id, newValue);
+  };
+
+  handleWindowSizeChange = () => {
+    this.setState({ windowWidth: window.innerWidth });
   };
 
   cancelEditing = () => {
@@ -43,6 +56,9 @@ export class ListSettings extends Component {
   render() {
     const { TabPane } = Tabs;
     const listId = this.props.match.params.id;
+
+    const { windowWidth } = this.state;
+    const isMobile = windowWidth <= 500;
 
     const cardTitleNotEditing = this.props.updatingTitle ? (
       <Spin data-test="updatingTitleSpinner" />
@@ -107,8 +123,8 @@ export class ListSettings extends Component {
             this.state.editingListTitle ? cardTitleEditing : cardTitleNotEditing
           }
         >
-          <Tabs tabPosition="right">
-            <TabPane tab="View Settings" key="1">
+          <Tabs tabPosition={isMobile ? 'top' : 'right'}>
+            <TabPane tab="View" key="1">
               <ViewSettings data-test="viewSettingsTab" listId={listId} />
             </TabPane>
             <TabPane tab="Meals" key="2">

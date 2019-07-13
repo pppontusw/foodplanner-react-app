@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { updateEntry } from '../actions/entries';
 import { Row, Button, AutoComplete, Input } from 'antd';
@@ -92,7 +92,7 @@ export class Entry extends Component {
       <div style={{ float: 'right' }}>
         <AutoComplete
           data-test="entryAutoComplete"
-          style={{ width: 200 }}
+          style={{ maxWidth: 200 }}
           dataSource={this.props.foods}
           placeholder="Type food here"
           defaultValue={this.state.value !== 'Empty' ? this.state.value : ''}
@@ -119,25 +119,33 @@ export class Entry extends Component {
           type="primary"
           onClick={this.saveEntry}
         />
-        <Button
-          data-test="revertEntryButton"
-          style={{ marginLeft: '2px' }}
-          icon="close-circle"
-          // size="small"
-          type="danger"
-          onClick={this.revertEntry}
-        />
+        {!this.props.isMobile && (
+          <Button
+            data-test="revertEntryButton"
+            style={{ marginLeft: '2px' }}
+            icon="close-circle"
+            // size="small"
+            type="danger"
+            onClick={this.revertEntry}
+          />
+        )}
       </div>
     );
 
     if (!entry) {
       return null;
     }
+
+    const hideDay = this.props.isMobile && this.state.editing;
     return (
       <Row data-test="entryRow" style={{ marginTop: '10px' }}>
-        <div style={{ float: 'left' }}>
-          <p data-test="entryKey">{entry.key}</p>
-        </div>
+        {hideDay ? (
+          <Fragment />
+        ) : (
+          <div style={{ float: 'left' }}>
+            <p data-test="entryKey">{entry.key}</p>
+          </div>
+        )}
         {this.state.editing ? Editing : notEditing}
       </Row>
     );

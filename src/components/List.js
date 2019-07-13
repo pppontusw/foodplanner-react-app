@@ -11,7 +11,8 @@ import { Card, Button, Icon } from 'antd';
 export class List extends Component {
   state = {
     page: 0,
-    visitedPages: [0]
+    visitedPages: [0],
+    windowWidth: window.innerWidth
   };
 
   componentDidMount() {
@@ -19,7 +20,16 @@ export class List extends Component {
     this.props.getDaysByList(this.props.match.params.id, this.state.page);
     this.props.getEntriesByList(this.props.match.params.id, this.state.page);
     this.props.getFoodsByList(this.props.match.params.id);
+    window.addEventListener('resize', this.handleWindowSizeChange);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  handleWindowSizeChange = () => {
+    this.setState({ windowWidth: window.innerWidth });
+  };
 
   refreshData = suppressLoading => {
     this.props.getList(
@@ -72,6 +82,8 @@ export class List extends Component {
   render() {
     const { loading, list } = this.props;
 
+    const isMobile = this.state.windowWidth <= 500;
+
     return (
       <div>
         <Card
@@ -97,6 +109,7 @@ export class List extends Component {
                   key={day}
                   listId={this.props.list.id}
                   dayId={day}
+                  isMobile={isMobile}
                 />
               ))
             : null}

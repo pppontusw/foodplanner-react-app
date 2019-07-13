@@ -25,6 +25,7 @@ export class Day extends Component {
               key={entry}
               listId={this.props.listId}
               entryId={entry}
+              isMobile={this.props.isMobile}
             />
           ))}
         </Card>

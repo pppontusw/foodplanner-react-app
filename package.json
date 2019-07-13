@@ -4,12 +4,11 @@
   "private": true,
   "jest": {
     "collectCoverageFrom": [
-      "**/*.{js,jsx}",
+      "src/**/*.{js,jsx}",
       "!**/node_modules/**",
       "!**/vendor/**",
       "!src/index.js",
       "!src/serviceWorker.js",
-      "!Utils/*",
       "!coverage/lcov-report/*"
     ]
   },
@@ -34,7 +33,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "aws s3 sync build/ s3://www.myfoodplan.app --acl public-read",
+    "deploy": "aws s3 sync build/static s3://www.myfoodplan.app/static --acl public-read --cache-control 'max-age=604800' && aws s3 sync build/ s3://www.myfoodplan.app --acl public-read --cache-control 'max-age=600' && aws cloudfront create-invalidation --distribution-id EKFICCND7P39T --paths /index.html /service-worker.js /asset-manifest.json",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(react-dnd|dnd-core|react-dnd-html5-backend)/)'",
     "eject": "react-scripts eject"
   },

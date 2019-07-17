@@ -25,14 +25,24 @@ const mapStateToProps = state => {
 export class Lists extends Component {
   state = {
     newListModalVisible: false,
-    listname: ''
+    listname: '',
+    windowWidth: window.innerWidth
   };
 
   componentDidMount() {
     this.props.getLists(0, 2);
     this.props.getDays(0, 2);
     this.props.getEntries(0, 2);
+    window.addEventListener('resize', this.handleWindowSizeChange);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  handleWindowSizeChange = () => {
+    this.setState({ windowWidth: window.innerWidth });
+  };
 
   onSubmit = e => {
     e.preventDefault();
@@ -55,6 +65,9 @@ export class Lists extends Component {
     if (this.props.listsLoading) {
       return <Loader data-test="listsLoading" />;
     }
+
+    const isMobile = this.state.windowWidth <= 500;
+
     return (
       <Fragment>
         <Modal
@@ -95,6 +108,7 @@ export class Lists extends Component {
                     key={day}
                     listId={list.id}
                     dayId={day}
+                    isMobile={isMobile}
                   />
                 ))}
               </Card>

@@ -1,7 +1,7 @@
-import React, {Component, Fragment} from 'react';
-import {connect} from 'react-redux';
-import {updateEntry} from '../actions/entries';
-import {Row, Button, AutoComplete, Input} from 'antd';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { updateEntry } from '../actions/entries';
+import { Row, Button, AutoComplete, Input } from 'antd';
 
 const foodsMap = (list, foods) => {
   let newFoods = [];
@@ -24,7 +24,7 @@ export class Entry extends Component {
   state = {
     value: '',
     orig_value: '',
-    editing: false,
+    editing: false
   };
 
   constructor(props) {
@@ -39,42 +39,42 @@ export class Entry extends Component {
     } else {
       value = 'Empty';
     }
-    this.setState({value, orig_value: value});
+    this.setState({ value, orig_value: value });
   }
 
   saveEntry = () => {
-    this.setState({editing: false});
+    this.setState({ editing: false });
     const newValue = this.state.value;
     this.props.updateEntry(this.props.entry.id, newValue);
-    this.setState({orig_value: newValue});
+    this.setState({ orig_value: newValue });
   };
 
   onSelect = (value, option) => {
-    this.setState({value: value}, () => {
+    this.setState({ value: value }, () => {
       this.saveEntry();
     });
   };
 
   revertEntry = () => {
-    this.setState({value: this.state.orig_value});
-    this.setState({editing: false});
+    this.setState({ value: this.state.orig_value });
+    this.setState({ editing: false });
   };
 
   startEdit = () => {
-    this.setState({editing: true}, () => {
+    this.setState({ editing: true }, () => {
       this.myRef.current.focus();
     });
   };
 
   onChange = e => {
-    this.setState({value: e});
+    this.setState({ value: e });
   };
 
   render() {
-    const {entry} = this.props;
+    const { entry } = this.props;
 
     const notEditing = (
-      <div style={{float: 'right'}}>
+      <div style={{ float: 'right' }}>
         <p data-test="entryValue">
           {this.state.value}
           {this.props.editAllowed && (
@@ -83,7 +83,7 @@ export class Entry extends Component {
               size="small"
               onClick={this.startEdit}
               icon="edit"
-              style={{marginLeft: '10px', float: 'right'}}
+              style={{ marginLeft: '10px', float: 'right' }}
             />
           )}
         </p>
@@ -91,10 +91,10 @@ export class Entry extends Component {
     );
 
     const Editing = (
-      <div style={{float: 'right'}}>
+      <div style={{ float: 'right' }}>
         <AutoComplete
           data-test="entryAutoComplete"
-          style={{maxWidth: 200}}
+          style={{ maxWidth: 200 }}
           dataSource={this.props.foods}
           placeholder="Type food here"
           defaultValue={this.state.value !== 'Empty' ? this.state.value : ''}
@@ -114,7 +114,7 @@ export class Entry extends Component {
         </AutoComplete>
         <Button
           data-test="saveEntryButton"
-          style={{marginLeft: '2px'}}
+          style={{ marginLeft: '2px' }}
           icon="check-circle"
           // size="small"
           type="primary"
@@ -123,7 +123,7 @@ export class Entry extends Component {
         {!this.props.isMobile && (
           <Button
             data-test="revertEntryButton"
-            style={{marginLeft: '2px'}}
+            style={{ marginLeft: '2px' }}
             icon="close-circle"
             // size="small"
             type="danger"
@@ -139,11 +139,11 @@ export class Entry extends Component {
 
     const hideDay = this.props.isMobile && this.state.editing;
     return (
-      <Row data-test="entryRow" style={{marginTop: '10px'}}>
+      <Row data-test="entryRow" style={{ marginTop: '10px' }}>
         {hideDay ? (
           <Fragment />
         ) : (
-          <div style={{float: 'left'}}>
+          <div style={{ float: 'left' }}>
             <p data-test="entryKey">{entry.key}</p>
           </div>
         )}
@@ -159,8 +159,8 @@ export default connect(
     const entryId = props.entryId;
     return {
       entry: state.entries.byId[entryId],
-      foods: foodsMap(list, state.foods),
+      foods: foodsMap(list, state.foods)
     };
   },
-  {updateEntry},
+  { updateEntry }
 )(Entry);

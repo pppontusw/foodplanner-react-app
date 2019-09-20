@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
-import {connect} from 'react-redux';
-import {Card} from 'antd';
+import { connect } from 'react-redux';
+import { Card } from 'antd';
 import Entry from './Entry';
 
 export class Day extends Component {
   render() {
-    const {day} = this.props;
+    const { day } = this.props;
     if (!day) {
       return null;
     }
@@ -14,7 +14,7 @@ export class Day extends Component {
       <React.Fragment key={day.id}>
         <Card
           data-test="dayCard"
-          style={{marginTop: '16px'}}
+          style={{ marginTop: '16px' }}
           type="inner"
           title={moment.utc(day.day).format('dddd')}
           extra={moment.utc(day.day).format('MMM Do')}>
@@ -38,8 +38,8 @@ export default connect(
   (state, props) => {
     const dayId = props.dayId;
     return {
-      day: state.days.byId[dayId],
+      day: state.days.byId[dayId]
     };
   },
-  null,
+  null
 )(Day);

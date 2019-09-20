@@ -1,7 +1,7 @@
 import React from 'react';
-import {shallow} from 'enzyme';
-import {findByDataTestAttr, testStore} from './../../Utils';
-import EntryConnected, {Entry} from './Entry';
+import { shallow } from 'enzyme';
+import { findByDataTestAttr, testStore } from './../../Utils';
+import EntryConnected, { Entry } from './Entry';
 
 const setUp = (compProps = {}, initialState = {}) => {
   const store = testStore(initialState);
@@ -21,16 +21,16 @@ const stateEntries = {
     1: {
       key: 'Lunch',
       id: '1',
-      value: 'Spaghetti',
+      value: 'Spaghetti'
     },
     2: {
       key: 'Dinner',
       id: '2',
-      value: '',
-    },
+      value: ''
+    }
   },
   loading: false,
-  firstFullLoad: false,
+  firstFullLoad: false
 };
 
 const stateLists = {
@@ -38,31 +38,31 @@ const stateLists = {
     1: {
       name: 'List1',
       id: '1',
-      foods: [1, 2],
-    },
+      foods: [1, 2]
+    }
   },
   loading: false,
-  firstFullLoad: false,
+  firstFullLoad: false
 };
 
 const stateFoods = {
   byId: {
     1: {
       name: 'Penne',
-      id: '1',
+      id: '1'
     },
     2: {
       name: 'Fusilli',
-      id: '2',
-    },
+      id: '2'
+    }
   },
-  loading: false,
+  loading: false
 };
 
 const props = {
   entryId: 1,
   listId: 1,
-  editAllowed: true,
+  editAllowed: true
 };
 
 describe('Entry Component (connected)', () => {
@@ -71,7 +71,7 @@ describe('Entry Component (connected)', () => {
     component = setUp(props, {
       lists: stateLists,
       entries: stateEntries,
-      foods: stateFoods,
+      foods: stateFoods
     });
   });
 
@@ -90,7 +90,7 @@ describe('Entry Component (connected)', () => {
     const startEditButton = findByDataTestAttr(component, 'startEditButton');
     expect(startEditButton.length).toBe(1);
     expect(startEditButton.prop('onClick')).toBe(
-      component.instance().startEdit,
+      component.instance().startEdit
     );
   });
 
@@ -105,8 +105,8 @@ describe('Entry Component (connected)', () => {
   it('renders nothing if there is no entries', async () => {
     component = setUp(props, {
       entries: {
-        byId: {},
-      },
+        byId: {}
+      }
     });
     await component.instance().componentDidMount();
     const entryValue = findByDataTestAttr(component, 'entryValue');
@@ -118,8 +118,8 @@ describe('Entry Component (connected)', () => {
       lists: stateLists,
       entries: stateEntries,
       foods: {
-        byId: {},
-      },
+        byId: {}
+      }
     });
     const entryValue = findByDataTestAttr(component, 'entryValue');
     expect(entryValue.length).toBe(1);
@@ -127,14 +127,14 @@ describe('Entry Component (connected)', () => {
 
   it('handles if entry has no value (sets it to empty)', async () => {
     component = setUp(
-      {...props, entryId: 2},
+      { ...props, entryId: 2 },
       {
         lists: stateLists,
         entries: stateEntries,
         foods: {
-          byId: {},
-        },
-      },
+          byId: {}
+        }
+      }
     );
     await component.instance().componentDidMount();
     const entryValue = findByDataTestAttr(component, 'entryValue');
@@ -154,7 +154,7 @@ describe('List Component (without store)', () => {
       updateEntry: mockUpdateEntry,
       loading: false,
       firstFullLoad: false,
-      ...props,
+      ...props
     });
   });
 
@@ -163,15 +163,15 @@ describe('List Component (without store)', () => {
     const instance = component.instance();
     instance.myRef = {
       current: {
-        focus: mockFunc,
-      },
+        focus: mockFunc
+      }
     };
     instance.startEdit();
     expect(instance.state.editing).toBe(true);
     component.update();
     const entryAutoComplete = findByDataTestAttr(
       component,
-      'entryAutoComplete',
+      'entryAutoComplete'
     );
     expect(entryAutoComplete.length).toBe(1);
     expect(mockFunc).toBeCalled();
@@ -191,16 +191,16 @@ describe('List Component (without store)', () => {
     const saveEntryButton = findByDataTestAttr(component, 'saveEntryButton');
     expect(saveEntryButton.length).toBe(1);
     expect(saveEntryButton.prop('onClick')).toBe(
-      component.instance().saveEntry,
+      component.instance().saveEntry
     );
 
     const revertEntryButton = findByDataTestAttr(
       component,
-      'revertEntryButton',
+      'revertEntryButton'
     );
     expect(revertEntryButton.length).toBe(1);
     expect(revertEntryButton.prop('onClick')).toBe(
-      component.instance().revertEntry,
+      component.instance().revertEntry
     );
   });
 
@@ -262,12 +262,12 @@ describe('Entry Component (connected)', () => {
   let component;
   beforeEach(() => {
     component = setUp(
-      {...props, editAllowed: undefined},
+      { ...props, editAllowed: undefined },
       {
         lists: stateLists,
         entries: stateEntries,
-        foods: stateFoods,
-      },
+        foods: stateFoods
+      }
     );
   });
 
